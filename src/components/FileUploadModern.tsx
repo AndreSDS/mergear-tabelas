@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Upload, File, CheckCircle, X, Loader2 } from "lucide-react";
+import { Upload, File, CheckCircle, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -28,12 +28,13 @@ export function FileUploadModern({
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const simulateUpload = useCallback(() => {
-    if (!file) return;
-    
+  const simulateUpload = useCallback((fileToUpload?: File) => {
+    const targetFile = fileToUpload || file;
+    if (!targetFile) return;
+
     setIsUploading(true);
     setProgress(0);
-    
+
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
@@ -46,28 +47,15 @@ export function FileUploadModern({
     }, 200);
   }, [file]);
 
-  const handleDrop = useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      setIsDragOver(false);
-      
-      const droppedFile = e.dataTransfer.files[0];
-      if (droppedFile) {
-        validateAndSetFile(droppedFile);
-      }
-    },
-    []
-  );
-
-  const validateAndSetFile = (file: File) => {
+  const validateAndSetFile = useCallback((file: File) => {
     setError(null);
-    
+
     // Validar tamanho
     if (file.size > maxSizeMB * 1024 * 1024) {
       setError(`Arquivo muito grande. Máximo: ${maxSizeMB}MB`);
       return;
     }
-    
+
     // Validar tipo
     if (accept) {
       const acceptedTypes = accept.split(',').map(t => t.trim());
@@ -80,14 +68,27 @@ export function FileUploadModern({
         }
       }
     }
-    
+
     setFile(file);
     onFileUpload(file);
-    
+
     if (showProgress) {
-      simulateUpload();
+      simulateUpload(file);
     }
-  };
+  }, [maxSizeMB, accept, showProgress, simulateUpload, onFileUpload]);
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      setIsDragOver(false);
+
+      const droppedFile = e.dataTransfer.files[0];
+      if (droppedFile) {
+        validateAndSetFile(droppedFile);
+      }
+    },
+    [validateAndSetFile]
+  );
 
   const handleRemoveFile = () => {
     setFile(null);
@@ -98,12 +99,12 @@ export function FileUploadModern({
   return (
     <div className="flex flex-col gap-3">
       <span className="font-semibold text-sm text-gray-700 dark:text-gray-300">{label}</span>
-      
+
       <motion.div
         className={cn(
           "relative flex flex-col items-center justify-center w-full h-40 rounded-2xl border-2 border-dashed cursor-pointer overflow-hidden transition-all duration-300",
-          isDragOver 
-            ? "border-violet-500 bg-violet-50/50 dark:bg-violet-950/30 scale-[1.02]" 
+          isDragOver
+            ? "border-violet-500 bg-violet-50/50 dark:bg-violet-950/30 scale-[1.02]"
             : file
               ? "border-emerald-300 bg-emerald-50/50 dark:bg-emerald-950/30"
               : "border-gray-300 dark:border-gray-600 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 hover:border-violet-400 hover:bg-violet-50/30",
@@ -128,7 +129,7 @@ export function FileUploadModern({
           }}
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
         />
-        
+
         <AnimatePresence mode="wait">
           {file ? (
             <motion.div
@@ -158,7 +159,7 @@ export function FileUploadModern({
                   <X className="w-4 h-4 text-gray-500" />
                 </button>
               </div>
-              
+
               {showProgress && isUploading && (
                 <div className="w-full max-w-xs">
                   <div className="flex justify-between text-xs text-gray-500 mb-1">
@@ -175,7 +176,7 @@ export function FileUploadModern({
                   </div>
                 </div>
               )}
-              
+
               {progress === 100 && !isUploading && (
                 <motion.div
                   initial={{ scale: 0 }}
@@ -214,7 +215,7 @@ export function FileUploadModern({
           )}
         </AnimatePresence>
       </motion.div>
-      
+
       <AnimatePresence>
         {error && (
           <motion.p

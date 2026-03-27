@@ -5,7 +5,7 @@ import { MergeSettings } from "@/components/MergeSettings";
 import { SummaryPanel } from "@/components/SummaryPanel";
 import { exportJSONToExcel } from "@/lib/excel-util";
 import { useMergeWorkflow, type Step } from "@/hooks/useMergeWorkflow";
-import { FileSpreadsheet, ArrowRight, Loader2, Moon, Sun } from "lucide-react";
+import { FileSpreadsheet, ArrowRight, Loader2 } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { CardModern } from "@/components/ui/card-modern";
 import { StepperModern } from "@/components/StepperModern";

@@ -1,6 +1,6 @@
 "use client";
 
-import { Toaster, toast } from 'react-hot-toast';
+import { Toaster, toast, Toast } from 'react-hot-toast';
 import { CheckCircle, XCircle, AlertCircle, Info, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -84,7 +84,7 @@ export const showToast = {
 };
 
 interface ToastItemProps {
-  t: any;
+  t: Toast;
   type: 'success' | 'error' | 'warning' | 'info';
   title: string;
   description?: string;
