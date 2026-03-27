@@ -32,6 +32,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.30.2",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -49,7 +50,8 @@
     "typescript": "^5",
     "vinext": "^0.0.36",
     "vite": "^8.0.3",
-    "vitest": "^4.1.1"
+    "vitest": "^4.1.1",
+    "wrangler": "^4.78.0"
   },
   "type": "module"
 }
