@@ -46,6 +46,24 @@ pnpm deploy
 
 O deploy cria um Worker em `https://comparador-tabelas.rammpk.workers.dev`.
 
+### CI/CD com GitHub Actions
+
+O projeto inclui um pipeline CI/CD que faz deploy automático para Cloudflare Workers quando há push para a branch `main`.
+
+**Configuração necessária:**
+1. Adicione o secret `CLOUDFLARE_API_TOKEN` no repositório GitHub:
+   - Vá em Settings → Secrets and variables → Actions → New repository secret
+   - Nome: `CLOUDFLARE_API_TOKEN`
+   - Valor: Seu token de API do Cloudflare
+
+**O pipeline executa:**
+- Testes (`pnpm test`)
+- Lint (`pnpm lint`)
+- Build (`pnpm build`)
+- Deploy automático (`pnpm deploy`)
+
+O workflow está em `.github/workflows/deploy.yml`.
+
 ## Funcionalidades
 
 1. **Upload de planilhas** – Arraste ou selecione arquivos `.xlsx`/`.csv`
