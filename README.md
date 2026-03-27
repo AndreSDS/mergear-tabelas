@@ -51,10 +51,13 @@ O deploy cria um Worker em `https://comparador-tabelas.rammpk.workers.dev`.
 O projeto inclui um pipeline CI/CD que faz deploy automático para Cloudflare Workers quando há push para a branch `main`.
 
 **Configuração necessária:**
-1. Adicione o secret `CLOUDFLARE_API_TOKEN` no repositório GitHub:
-   - Vá em Settings → Secrets and variables → Actions → New repository secret
-   - Nome: `CLOUDFLARE_API_TOKEN`
-   - Valor: Seu token de API do Cloudflare
+
+Adicione os seguintes secrets no repositório GitHub (Settings → Secrets and variables → Actions → New repository secret):
+
+| Secret | Valor |
+|--------|-------|
+| `CLOUDFLARE_API_TOKEN` | Token de API do Cloudflare (permissões: Workers Scripts, Account Settings) |
+| `CLOUDFLARE_ACCOUNT_ID` | ID da sua conta Cloudflare (encontrado em Workers & Pages → Overview) |
 
 **O pipeline executa:**
 - Testes (`pnpm test`)
