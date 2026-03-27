@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Comparador de Tabelas Excel
 
-## Getting Started
+Uma aplicação web que permite mesclar duas planilhas Excel (antiga e nova) **100% no navegador**, sem envio de dados a servidores. A ferramenta identifica linhas correspondentes via uma coluna chave e mescla automaticamente colunas novas, exportando o resultado atualizado.
 
-First, run the development server:
+## Tecnologias
+
+- **Framework:** vinext (Vite + Next.js App Router)
+- **Runtime:** React 19
+- **Estilização:** Tailwind CSS 4 + shadcn/ui
+- **Processamento Excel:** xlsx (client‑side)
+- **Deploy:** Cloudflare Workers
+
+## Começando
+
+### Desenvolvimento local
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Instalar dependências
+pnpm install
+
+# Iniciar servidor de desenvolvimento (vinext)
 pnpm dev
-# or
-bun dev
+
+# Ou iniciar com Next.js puro
+pnpm dev:next
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3001](http://localhost:3001) (vinext) ou [http://localhost:3000](http://localhost:3000) (Next.js) no navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build de produção
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm build          # Vinext build para Workers
+pnpm build:next     # Next.js build (opcional)
+```
 
-## Learn More
+### Deploy na Cloudflare Workers
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Autenticar (primeira vez)
+npx wrangler login
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Deploy automatizado
+pnpm deploy
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+O deploy cria um Worker em `https://comparador-tabelas.rammpk.workers.dev`.
 
-## Deploy on Vercel
+## Funcionalidades
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Upload de planilhas** – Arraste ou selecione arquivos `.xlsx`/`.csv`
+2. **Seleção de colunas chave** – Identificador único para correspondência
+3. **Merge automático** – Combina tabelas, adiciona colunas novas
+4. **Preview dos resultados** – Visualize as primeiras linhas antes de baixar
+5. **Exportação** – Baixe a planilha atualizada em XLSX, XLS ou CSV
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Documentação
+
+- **[Documentação de Arquitetura](docs/architecture.md)** – Referência técnica completa (estrutura, fluxos, configuração,部署)
+- **[Vinext Migration Guide](.agents/skills/migrate-to-vinext/)** – Como o projeto foi migrado de Next.js para vinext
+
+## Scripts Disponíveis
+
+| Script | Descrição |
+|--------|-----------|
+| `dev` | Servidor de desenvolvimento (vinext) |
+| `dev:next` | Servidor de desenvolvimento (Next.js) |
+| `build` | Build de produção (vinext) |
+| `build:next` | Build de produção (Next.js) |
+| `start` | Servidor de produção local (vinext) |
+| `deploy` | Deploy para Cloudflare Workers |
+| `test` | Executa testes (Vitest) |
+| `lint` | Linting com ESLint |
+
+## Licença
+
+MIT
