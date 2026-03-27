@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import React from "react";
 import * as excelUtil from "@/lib/excel-util";
 import type { Row, MergeResult } from "@/lib/excel-util";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 // Mock lucide-react icons (simple stubs)
 vi.mock("lucide-react", () => ({
@@ -15,6 +16,20 @@ vi.mock("lucide-react", () => ({
   ChevronUp: (props: Record<string, unknown>) => React.createElement("svg", props),
   Columns3: (props: Record<string, unknown>) => React.createElement("svg", props),
   UploadCloud: (props: Record<string, unknown>) => React.createElement("svg", props),
+  Moon: (props: Record<string, unknown>) => React.createElement("svg", props),
+  Sun: (props: Record<string, unknown>) => React.createElement("svg", props),
+  Upload: (props: Record<string, unknown>) => React.createElement("svg", props),
+  File: (props: Record<string, unknown>) => React.createElement("svg", props),
+  CheckCircle: (props: Record<string, unknown>) => React.createElement("svg", props),
+  X: (props: Record<string, unknown>) => React.createElement("svg", props),
+  AlertCircle: (props: Record<string, unknown>) => React.createElement("svg", props),
+  Info: (props: Record<string, unknown>) => React.createElement("svg", props),
+  Check: (props: Record<string, unknown>) => React.createElement("svg", props),
+  Key: (props: Record<string, unknown>) => React.createElement("svg", props),
+  Table2: (props: Record<string, unknown>) => React.createElement("svg", props),
+  BarChart3: (props: Record<string, unknown>) => React.createElement("svg", props),
+  RowsIcon: (props: Record<string, unknown>) => React.createElement("svg", props),
+  Sparkles: (props: Record<string, unknown>) => React.createElement("svg", props),
 }));
 
 // We need to import Home after mocking
@@ -54,7 +69,11 @@ async function simulateDownloadFlow(
 
   exportSpy.mockClear();
 
-  render(<Home />);
+  render(
+    <ThemeProvider>
+      <Home />
+    </ThemeProvider>
+  );
 
   // Step 1 — Upload old file
   const fileInputs = document.querySelectorAll('input[type="file"]');

@@ -46,6 +46,13 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --color-brand-violet: oklch(0.58 0.25 285);
+  --color-brand-purple: oklch(0.55 0.22 300);
+  --color-brand-indigo: oklch(0.58 0.2 260);
+  --color-brand-emerald: oklch(0.6 0.2 160);
+  --color-brand-teal: oklch(0.6 0.18 180);
+  --color-brand-rose: oklch(0.6 0.22 15);
+  --color-brand-pink: oklch(0.6 0.2 330);
 }
 
 :root {
@@ -127,4 +134,43 @@
   html {
     @apply font-sans;
   }
+}
+
+/* Animações customizadas */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* Transições suaves */
+.transition-smooth {
+  transition: all 0.3s ease-out;
+}
+
+.transition-bouncy {
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
